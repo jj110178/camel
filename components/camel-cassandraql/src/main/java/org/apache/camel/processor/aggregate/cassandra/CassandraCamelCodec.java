@@ -16,6 +16,7 @@
  */
 package org.apache.camel.processor.aggregate.cassandra;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,6 +80,7 @@ public class CassandraCamelCodec {
 
     private Object deserialize(InputStream bytes) throws IOException, ClassNotFoundException {
         ObjectInputStream objectIn = new ObjectInputStream(bytes);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(objectIn);
         Object object = objectIn.readObject();
         objectIn.close();
         return object;

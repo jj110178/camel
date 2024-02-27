@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.rabbitmq;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -284,6 +285,7 @@ public class RabbitMQMessageConverter {
         Object messageBody = null;
         try (InputStream b = new ByteArrayInputStream(body);
              ObjectInputStream o = new ObjectInputStream(b)) {
+            ObjectInputFilters.enableObjectFilterIfUnprotected(o);
             messageBody = o.readObject();
         } catch (IOException | ClassNotFoundException e) {
             LOG.warn("Could not deserialize the object");

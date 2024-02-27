@@ -16,6 +16,7 @@
  */
 package org.apache.camel.dataformat.zipfile;
 
+import io.github.pixee.security.ZipSecurity;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -90,7 +91,7 @@ public class ZipFileDataFormat extends ServiceSupport implements DataFormat, Dat
             zipIterator.setAllowEmptyDirectory(allowEmptyDirectory);
             return zipIterator;
         } else {
-            ZipInputStream zis = new ZipInputStream(inputStream);
+            ZipInputStream zis = ZipSecurity.createHardenedInputStream(inputStream);
             OutputStreamBuilder osb = OutputStreamBuilder.withExchange(exchange);
 
             try {

@@ -605,7 +605,9 @@ public Token getNextToken()
    if (jjmatchedKind != 0x7fffffff)
    {
       if (jjmatchedPos + 1 < curPos)
-         input_stream.backup(curPos - jjmatchedPos - 1);
+         {
+             input_stream.backup(curPos - jjmatchedPos - 1);
+         }
          matchedToken = jjFillToken();
          return matchedToken;
    }

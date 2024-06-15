@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.shiro.security;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 
@@ -118,6 +119,7 @@ public class ShiroSecurityProcessor extends DelegateAsyncProcessor {
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decryptedToken.getBytes());
         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(objectInputStream);
         ShiroSecurityToken securityToken;
         try {
             securityToken = (ShiroSecurityToken)objectInputStream.readObject();

@@ -16,6 +16,7 @@
  */
 package org.apache.camel.itest.springboot.util;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,6 +50,7 @@ public final class SerializationUtils {
         }
 
         try (ByteArrayInputStream in = new ByteArrayInputStream(content); ObjectInputStream oin = new ObjectInputStream(in)) {
+            ObjectInputFilters.enableObjectFilterIfUnprotected(oin);
             Object bean = oin.readObject();
             return bean;
 

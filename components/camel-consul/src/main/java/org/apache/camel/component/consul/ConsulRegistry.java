@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.consul;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -278,6 +279,7 @@ public class ConsulRegistry implements Registry {
          */
         static Object deserialize(byte[] bytes) {
             try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
+                ObjectInputFilters.enableObjectFilterIfUnprotected(in);
                 return in.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);

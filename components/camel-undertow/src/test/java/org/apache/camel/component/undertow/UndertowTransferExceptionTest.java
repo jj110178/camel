@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.undertow;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -34,6 +35,7 @@ public class UndertowTransferExceptionTest extends BaseUndertowTest {
         get.setRequestHeader("Accept", "application/x-java-serialized-object");
         client.executeMethod(get);
         ObjectInputStream in = new ObjectInputStream(get.getResponseBodyAsStream());
+        ObjectInputFilters.enableObjectFilterIfUnprotected(in);
         IllegalArgumentException e = (IllegalArgumentException)in.readObject();
         Assert.assertNotNull(e);
         Assert.assertEquals(500, get.getStatusCode());

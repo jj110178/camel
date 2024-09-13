@@ -16,6 +16,7 @@
  */
 package org.apache.camel.itest.springboot.util;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -73,6 +74,7 @@ public final class BOMResolver {
 
             if (canUseCache()) {
                 try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(CACHE_FILE))) {
+                    ObjectInputFilters.enableObjectFilterIfUnprotected(in);
                     this.versions = (Map<String, String>) in.readObject();
                 }
             } else {

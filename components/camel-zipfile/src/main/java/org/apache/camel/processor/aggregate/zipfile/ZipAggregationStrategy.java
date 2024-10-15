@@ -16,6 +16,7 @@
  */
 package org.apache.camel.processor.aggregate.zipfile;
 
+import io.github.pixee.security.ZipSecurity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -200,7 +201,7 @@ public class ZipAggregationStrategy implements AggregationStrategy {
         byte[] buffer = new byte[8192];
 
         FileInputStream fis = new FileInputStream(tmpZip);
-        ZipInputStream zin = new ZipInputStream(fis);
+        ZipInputStream zin = ZipSecurity.createHardenedInputStream(fis);
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(source));
 
         try {
@@ -233,7 +234,7 @@ public class ZipAggregationStrategy implements AggregationStrategy {
         }
 
         FileInputStream fis = new FileInputStream(tmpZip);
-        ZipInputStream zin = new ZipInputStream(fis);
+        ZipInputStream zin = ZipSecurity.createHardenedInputStream(fis);
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(source));
         try {
             out.putNextEntry(new ZipEntry(entryName));

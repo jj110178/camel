@@ -16,6 +16,8 @@
  */
 package org.apache.camel.service.lra;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -67,7 +69,7 @@ public class LRASagaService extends ServiceSupport implements CamelSagaService {
     public CompletableFuture<CamelSagaCoordinator> getSaga(String id) {
         CompletableFuture<CamelSagaCoordinator> coordinator = new CompletableFuture<>();
         try {
-            coordinator.complete(new LRASagaCoordinator(this, new URL(id)));
+            coordinator.complete(new LRASagaCoordinator(this, Urls.create(id, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
         } catch (Exception ex) {
             coordinator.completeExceptionally(ex);
         }

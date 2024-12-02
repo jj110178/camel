@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.cxf.jaxrs;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -164,7 +166,7 @@ public class CxfRsConsumerTest extends CamelTestSupport {
     public void testGetWrongCustomer() throws Exception {
         URL url;
         
-        url = new URL("http://localhost:" + CXT + "/rest/customerservice/customers/789");
+        url = Urls.create("http://localhost:" + CXT + "/rest/customerservice/customers/789", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try {
             url.openStream();
             fail("Expect to get exception here");
@@ -172,7 +174,7 @@ public class CxfRsConsumerTest extends CamelTestSupport {
             // expect the Internal error exception
         }
         
-        url = new URL("http://localhost:" + CXT + "/rest/customerservice/customers/456");
+        url = Urls.create("http://localhost:" + CXT + "/rest/customerservice/customers/456", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try {
             url.openStream();
             fail("Expect to get exception here");
@@ -180,7 +182,7 @@ public class CxfRsConsumerTest extends CamelTestSupport {
             // do nothing here
         }
         
-        url = new URL("http://localhost:" + CXT + "/rest/customerservice/customers/234");
+        url = Urls.create("http://localhost:" + CXT + "/rest/customerservice/customers/234", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try {
             url.openStream();
             fail("Expect to get exception here");
@@ -188,7 +190,7 @@ public class CxfRsConsumerTest extends CamelTestSupport {
             // do nothing here
         }
         
-        url = new URL("http://localhost:" + CXT + "/rest/customerservice/customers/256");
+        url = Urls.create("http://localhost:" + CXT + "/rest/customerservice/customers/256", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try {
             url.openStream();
             fail("Expect to get exception here");

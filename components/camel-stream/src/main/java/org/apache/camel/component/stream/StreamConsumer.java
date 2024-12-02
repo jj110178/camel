@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.stream;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -291,7 +293,7 @@ public class StreamConsumer extends DefaultConsumer implements Runnable {
         StringHelper.notEmpty(u, "url");
         log.debug("About to read from url: {}", u);
 
-        URL url = new URL(u);
+        URL url = Urls.create(u, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         URLConnection c = url.openConnection();
         if (endpoint.getConnectTimeout() > 0) {
             c.setConnectTimeout(endpoint.getConnectTimeout());

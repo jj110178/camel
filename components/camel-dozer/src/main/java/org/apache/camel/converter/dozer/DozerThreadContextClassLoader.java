@@ -16,6 +16,8 @@
  */
 package org.apache.camel.converter.dozer;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -61,7 +63,7 @@ public class DozerThreadContextClassLoader implements DozerClassLoader {
         // one more time in case it's a normal URI
         if (answer == null && StringUtils.contains(uri, ":")) {
             try {
-                answer = new URL(uri);
+                answer = Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (MalformedURLException e) {
                 MappingUtils.throwMappingException(e);
             }

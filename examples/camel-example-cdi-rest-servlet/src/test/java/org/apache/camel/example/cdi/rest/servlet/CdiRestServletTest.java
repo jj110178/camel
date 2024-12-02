@@ -16,6 +16,8 @@
  */
 package org.apache.camel.example.cdi.rest.servlet;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.nio.file.Paths;
 
@@ -50,14 +52,14 @@ public class CdiRestServletTest {
     @Test
     @RunAsClient
     public void testWithPath(@ArquillianResource URL url) throws Exception {
-        assertThat(IOHelper.loadText(new URL(url, "camel/say/hello").openStream()),
+        assertThat(IOHelper.loadText(Urls.create(url, "camel/say/hello", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()),
             is(equalTo("Hello World!\n")));
     }
 
     @Test
     @RunAsClient
     public void testWithUriTemplate(@ArquillianResource URL url) throws Exception {
-        assertThat(IOHelper.loadText(new URL(url, "camel/say/hello/Antonin").openStream()),
+        assertThat(IOHelper.loadText(Urls.create(url, "camel/say/hello/Antonin", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()),
             is(equalTo("Hello Antonin, I'm CamelContext(hello)!\n")));
     }
 }

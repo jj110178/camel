@@ -16,6 +16,8 @@
  */
 package org.apache.camel.support;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -156,7 +158,7 @@ public final class ResourceHelper {
             LOG.trace("Loading resource: {} from file system", uri);
             return new FileInputStream(uri);
         } else if (uri.startsWith("http:")) {
-            URL url = new URL(uri);
+            URL url = Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             LOG.trace("Loading resource: {} from HTTP", uri);
             URLConnection con = url.openConnection();
             con.setUseCaches(false);
@@ -175,7 +177,7 @@ public final class ResourceHelper {
             uri = tryDecodeUri(uri);
         } else if (uri.contains(":")) {
             LOG.trace("Loading resource: {} with UrlHandler for protocol {}", uri, uri.split(":")[0]);
-            URL url = new URL(uri);
+            URL url = Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             URLConnection con = url.openConnection();
             return con.getInputStream();
         }
@@ -223,16 +225,16 @@ public final class ResourceHelper {
             if (!file.exists()) {
                 return null;
             }
-            return new URL(uri);
+            return Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } else if (uri.startsWith("http:")) {
             LOG.trace("Loading resource: {} from HTTP", uri);
-            return new URL(uri);
+            return Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } else if (uri.startsWith("classpath:")) {
             uri = StringHelper.after(uri, "classpath:");
             uri = tryDecodeUri(uri);
         } else if (uri.contains(":")) {
             LOG.trace("Loading resource: {} with UrlHandler for protocol {}", uri, uri.split(":")[0]);
-            return new URL(uri);
+            return Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
 
         // load from classpath by default

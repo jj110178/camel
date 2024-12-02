@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.avro;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.URL;
 
@@ -34,16 +36,16 @@ public class AvroHttpConsumerTest extends AvroConsumerTestSupport {
 
     @Override
     protected void initializeTranceiver() throws IOException {
-        transceiver = new HttpTransceiver(new URL("http://localhost:" + avroPort));
+        transceiver = new HttpTransceiver(Urls.create("http://localhost:" + avroPort, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         requestor = new SpecificRequestor(KeyValueProtocol.class, transceiver);
 
-        transceiverMessageInRoute = new HttpTransceiver(new URL("http://localhost:" + avroPortMessageInRoute));
+        transceiverMessageInRoute = new HttpTransceiver(Urls.create("http://localhost:" + avroPortMessageInRoute, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         requestorMessageInRoute = new SpecificRequestor(KeyValueProtocol.class, transceiverMessageInRoute);
 
-        transceiverForWrongMessages = new HttpTransceiver(new URL("http://localhost:" + avroPortForWrongMessages));
+        transceiverForWrongMessages = new HttpTransceiver(Urls.create("http://localhost:" + avroPortForWrongMessages, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         requestorForWrongMessages = new SpecificRequestor(KeyValueProtocol.class, transceiverForWrongMessages);
 
-        reflectTransceiver = new HttpTransceiver(new URL("http://localhost:" + avroPortReflection));
+        reflectTransceiver = new HttpTransceiver(Urls.create("http://localhost:" + avroPortReflection, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         reflectRequestor = new ReflectRequestor(TestReflection.class, reflectTransceiver);
     }
 

@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 package org.apache.camel.component.hdfs2;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -335,7 +337,7 @@ public class HdfsProducerTest extends HdfsTestSupport {
         for (int i = 0; i < 5; i++) {
             InputStream in = null;
             try {
-                in = new URL("file:///" + TEMP_DIR.toUri() + "/test-camel-dynamic/file" + i).openStream();
+                in = Urls.create("file:///" + TEMP_DIR.toUri() + "/test-camel-dynamic/file" + i, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 IOUtils.copyBytes(in, bos, 4096, false);
                 assertEquals("CIAO" + i, new String(bos.toByteArray()));
@@ -358,7 +360,7 @@ public class HdfsProducerTest extends HdfsTestSupport {
         for (int i = 0; i < 5; i++) {
             InputStream in = null;
             try {
-                in = new URL("file:///" + TEMP_DIR.toUri() + "/test-camel-dynamic/file-CIAO" + i).openStream();
+                in = Urls.create("file:///" + TEMP_DIR.toUri() + "/test-camel-dynamic/file-CIAO" + i, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 IOUtils.copyBytes(in, bos, 4096, false);
                 assertEquals("CIAO" + i, new String(bos.toByteArray()));

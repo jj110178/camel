@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.netty4.http;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 
 import org.apache.camel.EndpointInject;
@@ -38,7 +40,7 @@ public class NettyHttpRawQueryTest extends BaseNettyTest {
         mockEndpoint.message(0).header(HTTP_QUERY).isEqualTo("param=x1&y=2");
         mockEndpoint.message(0).header(HTTP_RAW_QUERY).isEqualTo(query);
 
-        new URL("http://localhost:" + getPort() + "/?" + query).openConnection().getInputStream().close();
+        Urls.create("http://localhost:" + getPort() + "/?" + query, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection().getInputStream().close();
 
         assertMockEndpointsSatisfied();
     }

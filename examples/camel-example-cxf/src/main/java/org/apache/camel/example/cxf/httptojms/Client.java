@@ -16,6 +16,8 @@
  */
 package org.apache.camel.example.cxf.httptojms;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,7 +46,7 @@ public final class Client {
         if (wsdlFile.exists()) {
             wsdlURL = wsdlFile.toURI().toURL();
         } else {
-            wsdlURL = new URL(wsdlLocation);
+            wsdlURL = Urls.create(wsdlLocation, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
         soapService = new SOAPService(wsdlURL, SERVICE_NAME);
     }

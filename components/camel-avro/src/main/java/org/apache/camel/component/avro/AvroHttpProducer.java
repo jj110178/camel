@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.avro;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 
 import org.apache.avro.ipc.HttpTransceiver;
@@ -31,6 +33,6 @@ public class AvroHttpProducer extends AvroProducer {
 
     @Override
     public Transceiver createTransceiver() throws Exception {
-        return new HttpTransceiver(new URL(URISupport.normalizeUri(getEndpoint().getEndpointUri())));
+        return new HttpTransceiver(Urls.create(URISupport.normalizeUri(getEndpoint().getEndpointUri()), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
     }
 }

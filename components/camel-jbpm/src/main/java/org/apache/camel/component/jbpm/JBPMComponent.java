@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jbpm;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class JBPMComponent extends DefaultComponent {
         if (remaining.startsWith("events")) {
             configuration.setEventListenerType(remaining.split(":")[1]);
         } else {        
-            configuration.setConnectionURL(new URL(remaining));
+            configuration.setConnectionURL(Urls.create(remaining, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         }
         setProperties(configuration, parameters);
         return new JBPMEndpoint(uri, this, configuration);

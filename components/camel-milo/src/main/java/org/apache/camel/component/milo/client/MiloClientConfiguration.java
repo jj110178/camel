@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.milo.client;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -278,7 +280,7 @@ public class MiloClientConfiguration implements Cloneable {
      * The URL where the key should be loaded from
      */
     public void setKeyStoreUrl(final String keyStoreUrl) throws MalformedURLException {
-        this.keyStoreUrl = keyStoreUrl != null ? new URL(keyStoreUrl) : null;
+        this.keyStoreUrl = keyStoreUrl != null ? Urls.create(keyStoreUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) : null;
     }
 
     public URL getKeyStoreUrl() {

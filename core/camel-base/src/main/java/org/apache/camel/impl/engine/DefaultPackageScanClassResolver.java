@@ -16,6 +16,8 @@
  */
 package org.apache.camel.impl.engine;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -280,7 +282,7 @@ public class DefaultPackageScanClassResolver extends ServiceSupport implements P
                         // load resources using http/https, sonicfs and other acceptable scheme
                         // sonic ESB requires to be loaded using a regular URLConnection
                         log.trace("Loading from jar using url: {}", urlPath);
-                        URL urlStream = new URL(urlPath);
+                        URL urlStream = Urls.create(urlPath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                         URLConnection con = urlStream.openConnection();
                         // disable cache mainly to avoid jar file locking on Windows
                         con.setUseCaches(false);

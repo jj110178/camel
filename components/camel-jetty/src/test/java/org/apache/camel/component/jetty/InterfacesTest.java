@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jetty;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -65,20 +67,20 @@ public class InterfacesTest extends BaseJettyTest {
         int expectedMessages = (remoteInterfaceAddress != null) ? 3 : 2;
         getMockEndpoint("mock:endpoint").expectedMessageCount(expectedMessages);
         
-        URL localUrl = new URL("http://localhost:" + port1 + "/testRoute");
+        URL localUrl = Urls.create("http://localhost:" + port1 + "/testRoute", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         String localResponse = context.getTypeConverter().convertTo(String.class, localUrl.openStream());
         assertEquals("local", localResponse);
        
         if (!isMacOS) {
-            localUrl = new URL("http://127.0.0.1:" + port2 + "/testRoute");
+            localUrl = Urls.create("http://127.0.0.1:" + port2 + "/testRoute", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } else {
-            localUrl = new URL("http://localhost:" + port2 + "/testRoute");
+            localUrl = Urls.create("http://localhost:" + port2 + "/testRoute", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
         localResponse = context.getTypeConverter().convertTo(String.class, localUrl.openStream());
         assertEquals("local-differentPort", localResponse);
         
         if (remoteInterfaceAddress != null) {            
-            URL url = new URL("http://" + remoteInterfaceAddress + ":" + port3 + "/testRoute");
+            URL url = Urls.create("http://" + remoteInterfaceAddress + ":" + port3 + "/testRoute", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             String remoteResponse = context.getTypeConverter().convertTo(String.class, url.openStream());
             assertEquals("remote", remoteResponse);
         }
@@ -91,12 +93,12 @@ public class InterfacesTest extends BaseJettyTest {
         int expectedMessages = (remoteInterfaceAddress != null) ? 2 : 1;
         getMockEndpoint("mock:endpoint").expectedMessageCount(expectedMessages);
         
-        URL localUrl = new URL("http://localhost:" + port4 + "/allInterfaces");
+        URL localUrl = Urls.create("http://localhost:" + port4 + "/allInterfaces", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         String localResponse = context.getTypeConverter().convertTo(String.class, localUrl.openStream());
         assertEquals("allInterfaces", localResponse);
         
         if (remoteInterfaceAddress != null) {
-            URL url = new URL("http://" + remoteInterfaceAddress + ":" + port4 + "/allInterfaces");
+            URL url = Urls.create("http://" + remoteInterfaceAddress + ":" + port4 + "/allInterfaces", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             String remoteResponse = context.getTypeConverter().convertTo(String.class, url.openStream());
             assertEquals("allInterfaces", remoteResponse);
         }

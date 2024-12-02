@@ -187,6 +187,10 @@
             <version>${woodstox-version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.pixee</groupId>
+            <artifactId>java-security-toolkit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -341,16 +345,10 @@
                                 <property name="ant.regexp.regexpimpl"
                                           value="org.apache.tools.ant.util.regexp.Jdk14RegexpRegexp"/>
                                 <property name="mv" value="${project.version}"/>
-                                <propertyregex property="ov.p1" input="${mv}"
-                                               regexp="(\d+)(?:\.(\d+)(?:\.(\d+))?)?(?:[^a-zA-Z0-9](.*))?" replace="\1"
-                                               defaultValue="0"/>
-                                <propertyregex property="ov.p2" input="${mv}"
-                                               regexp="(\d+)(?:\.(\d+)(?:\.(\d+))?)?(?:[^a-zA-Z0-9](.*))?" replace=".\2"
-                                               defaultValue=".0"/>
-                                <propertyregex property="ov.p1a" input="${ov.p1}" regexp="(.+)" replace="\1"
-                                               defaultValue="0"/>
-                                <propertyregex property="ov.p2a" input="${ov.p2}" regexp="(\..+)" replace="\1"
-                                               defaultValue=".0"/>
+                                <propertyregex property="ov.p1" input="${mv}" regexp="(\d+)(?:\.(\d+)(?:\.(\d+))?)?(?:[^a-zA-Z0-9](.*))?" replace="\1" defaultValue="0"/>
+                                <propertyregex property="ov.p2" input="${mv}" regexp="(\d+)(?:\.(\d+)(?:\.(\d+))?)?(?:[^a-zA-Z0-9](.*))?" replace=".\2" defaultValue=".0"/>
+                                <propertyregex property="ov.p1a" input="${ov.p1}" regexp="(.+)" replace="\1" defaultValue="0"/>
+                                <propertyregex property="ov.p2a" input="${ov.p2}" regexp="(\..+)" replace="\1" defaultValue=".0"/>
                                 <property name="camel.schema.version" value="${ov.p1a}${ov.p2a}"/>
                                 <mkdir dir="target"/>
                                 <mkdir dir="${project.build.directory}/schema/META-INF/JAXB"/>
@@ -408,8 +406,7 @@
                         <configuration>
                             <target>
                                 <echo>Including source code from camel-core-xml in the camel-spring-sources.jar</echo>
-                                <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}-sources.jar"
-                                     update="true">
+                                <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}-sources.jar" update="true">
                                     <fileset dir="${basedir}/../../core/camel-core-osgi/src/main/java" includes="**/*"/>
                                     <fileset dir="${basedir}/../../core/camel-core-xml/src/main/java" includes="**/*"/>
                                     <fileset dir="${basedir}/src/main/java" includes="**/*"/>
@@ -427,17 +424,9 @@
                         <configuration>
                             <target>
                                 <echo>Copying XSD schema to be included in JAR</echo>
-                                <copy file="${project.build.directory}/classes/camel-spring.xsd"
-                                      tofile="${project.build.directory}/schema/camel-spring.xsd"
-                                      preservelastmodified="true"/>
-                                <copy file="${project.build.directory}/classes/camel-spring.xsd"
-                                      tofile="${project.build.directory}/schema/camel-spring-v${camel.schema.version}.xsd"
-                                      preservelastmodified="true"/>
-                                <replace
-                                        file="${project.build.directory}/schema/camel-spring-v${camel.schema.version}.xsd"
-                                        token="&quot;http://camel.apache.org/schema/spring&quot;"
-                                        value="&quot;http://camel.apache.org/schema/spring/v${camel.schema.version}&quot;"
-                                        preservelastmodified="true"/>
+                                <copy file="${project.build.directory}/classes/camel-spring.xsd" tofile="${project.build.directory}/schema/camel-spring.xsd" preservelastmodified="true"/>
+                                <copy file="${project.build.directory}/classes/camel-spring.xsd" tofile="${project.build.directory}/schema/camel-spring-v${camel.schema.version}.xsd" preservelastmodified="true"/>
+                                <replace file="${project.build.directory}/schema/camel-spring-v${camel.schema.version}.xsd" token="&quot;http://camel.apache.org/schema/spring&quot;" value="&quot;http://camel.apache.org/schema/spring/v${camel.schema.version}&quot;" preservelastmodified="true"/>
                                 <!-- copy modified schemas back again in classes so they are included in the JAR -->
                                 <copy todir="${project.build.directory}/classes" preservelastmodified="true">
                                     <fileset dir="${project.build.directory}/schema">
@@ -459,12 +448,8 @@
                                 <copy todir="${project.build.directory}/spring-meta" preservelastmodified="true">
                                     <fileset dir="${project.basedir}/src/main/resources"/>
                                 </copy>
-                                <replace file="${project.build.directory}/spring-meta/META-INF/spring.handlers"
-                                         token="\\${camel.schema.version}" value="${camel.schema.version}"
-                                         preservelastmodified="true"/>
-                                <replace file="${project.build.directory}/spring-meta/META-INF/spring.schemas"
-                                         token="\\${camel.schema.version}" value="${camel.schema.version}"
-                                         preservelastmodified="true"/>
+                                <replace file="${project.build.directory}/spring-meta/META-INF/spring.handlers" token="\\${camel.schema.version}" value="${camel.schema.version}" preservelastmodified="true"/>
+                                <replace file="${project.build.directory}/spring-meta/META-INF/spring.schemas" token="\\${camel.schema.version}" value="${camel.schema.version}" preservelastmodified="true"/>
                                 <copy todir="${project.build.directory}/classes" preservelastmodified="true">
                                     <fileset dir="${project.build.directory}/spring-meta"/>
                                 </copy>
@@ -480,8 +465,7 @@
                         <configuration>
                             <target>
                                 <echo>Create some jars for testing</echo>
-                                <jar destfile="${project.build.directory}/test-classes/package+scan+test.jar"
-                                     update="true">
+                                <jar destfile="${project.build.directory}/test-classes/package+scan+test.jar" update="true">
                                     <fileset dir="${project.build.directory}/test-classes/" includes="**/Test.class"/>
                                 </jar>
                                 <copy file="${project.build.directory}/test-classes/package+scan+test.jar"

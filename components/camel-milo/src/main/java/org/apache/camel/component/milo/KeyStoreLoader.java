@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.milo;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -77,7 +79,7 @@ public class KeyStoreLoader {
     }
 
     public void setUrl(final String url) throws MalformedURLException {
-        this.url = new URL(url);
+        this.url = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     public void setKeyStorePassword(final String keyStorePassword) {

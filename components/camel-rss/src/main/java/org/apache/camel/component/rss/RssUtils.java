@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.rss;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -40,7 +42,7 @@ public final class RssUtils {
         ClassLoader tccl = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
-            InputStream in = new URL(feedUri).openStream();
+            InputStream in = Urls.create(feedUri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
             SyndFeedInput input = new SyndFeedInput();
             return input.build(new XmlReader(in));
         } finally {
@@ -56,7 +58,7 @@ public final class RssUtils {
         ClassLoader tccl = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
-            URL feedUrl = new URL(feedUri);
+            URL feedUrl = Urls.create(feedUri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             HttpURLConnection httpcon = (HttpURLConnection) feedUrl.openConnection();
             String encoding = Base64.encodeBase64String(username.concat(":").concat(password).getBytes());
             httpcon.setRequestProperty("Authorization", "Basic " + encoding);

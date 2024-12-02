@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.atom;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -54,7 +56,7 @@ public final class AtomUtils {
      * @throws ParseException is thrown if the parsing failed
      */
     public static Document<Feed> parseDocument(String uri) throws IOException, ParseException {
-        URL feedUrl = new URL(uri);
+        URL feedUrl = Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         URLConnection urlConn = feedUrl.openConnection();
         urlConn.setConnectTimeout(60000);
         urlConn.setReadTimeout(60000);
@@ -63,7 +65,7 @@ public final class AtomUtils {
     }
 
     public static Document<Feed> parseDocument(String uri, String username, String password) throws IOException {
-        URL feedUrl = new URL(uri);
+        URL feedUrl = Urls.create(uri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection httpcon = (HttpURLConnection) feedUrl.openConnection();
         httpcon.setConnectTimeout(60000);
         httpcon.setReadTimeout(60000);

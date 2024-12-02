@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jira;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -127,7 +129,7 @@ public final class Utils {
         // avatar Id
         sb.append("avatarId=").append(avatarId);
         String relativeAvatarUrl = sb.toString();
-        URI avatarUrl = new URL(TEST_JIRA_URL + "/" + relativeAvatarUrl).toURI();
+        URI avatarUrl = Urls.create(TEST_JIRA_URL + "/" + relativeAvatarUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI();
         return avatarUrl;
     }
 

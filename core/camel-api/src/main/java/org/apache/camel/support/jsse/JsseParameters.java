@@ -16,6 +16,8 @@
  */
 package org.apache.camel.support.jsse;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -177,7 +179,7 @@ public class JsseParameters implements CamelContextAware {
         if (is == null) {
             try {
                 LOG.trace("Trying to open resource [{}] as a URL.", resource);
-                is = new URL(resource).openStream();
+                is = Urls.create(resource, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
                 LOG.debug("Opened resource [{}] as a URL.", resource);
             } catch (IOException e) {
                 LOG.trace("Could not open resource [" + resource + "] as a URL.", e);

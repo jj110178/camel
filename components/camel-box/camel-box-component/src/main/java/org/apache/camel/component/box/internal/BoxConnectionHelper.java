@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.box.internal;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.SocketAddress;
@@ -155,7 +157,7 @@ public final class BoxConnectionHelper {
             final String location = response.header("Location");
 
             final Map<String, String> params = new HashMap<>();
-            final Matcher matcher = QUERY_PARAM_PATTERN.matcher(new URL(location).getQuery());
+            final Matcher matcher = QUERY_PARAM_PATTERN.matcher(Urls.create(location, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getQuery());
             while (matcher.find()) {
                 params.put(matcher.group(1), matcher.group(2));
             }

@@ -16,6 +16,8 @@
  */
 package org.apache.camel.service.lra;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -180,7 +182,7 @@ public class LRAClient {
         }
 
         try {
-            return new URL(url.toString());
+            return Urls.create(url.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (Exception ex) {
             throw new RuntimeCamelException(ex);
         }

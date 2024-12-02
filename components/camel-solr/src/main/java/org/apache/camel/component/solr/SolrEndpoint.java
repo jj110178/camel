@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.solr;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -73,7 +75,7 @@ public class SolrEndpoint extends DefaultEndpoint {
         if (endpointUri.startsWith("solrs")) {
             scheme = "https://";
         }
-        URL url = new URL(scheme + address);
+        URL url = Urls.create(scheme + address, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         this.url = url.toString();
     }
 

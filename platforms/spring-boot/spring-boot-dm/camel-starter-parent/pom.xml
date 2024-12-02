@@ -157,7 +157,11 @@
             <!--<artifactId>netty-transport</artifactId>-->
             <!--<version>${netty-version}</version>-->
             <!--</dependency>-->
-
+            <dependency>
+                <groupId>io.github.pixee</groupId>
+                <artifactId>java-security-toolkit</artifactId>
+                <version>${versions.java-security-toolkit}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -207,5 +211,7 @@
             </build>
         </profile>
     </profiles>
-
+    <properties>
+        <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+    </properties>
 </project>

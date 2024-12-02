@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 package org.apache.camel.spring.scan;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -149,7 +151,7 @@ public class DefaultPackageScanClassResolverTest extends org.apache.camel.spring
             savedClassLoader = Thread.currentThread().getContextClassLoader();
             // build a mock URLClassLoader
             URL url = getClass().getResource("/package_scan_test.jar");
-            URL urls[] = {new URL("jar:" + url.toString() + "!/")};
+            URL urls[] = {Urls.create("jar:" + url.toString() + "!/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)};
             URLClassLoader classLoader = new URLClassLoader(urls, savedClassLoader);
 
 
@@ -178,7 +180,7 @@ public class DefaultPackageScanClassResolverTest extends org.apache.camel.spring
             savedClassLoader = Thread.currentThread().getContextClassLoader();
             URL url = getClass().getResource("/package+scan+test.jar");
 
-            URL urls[] = {new URL("jar:" + url.toString() + "!/")};
+            URL urls[] = {Urls.create("jar:" + url.toString() + "!/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)};
             URLClassLoader classLoader = new URLClassLoader(urls, savedClassLoader);
 
             Thread.currentThread().setContextClassLoader(classLoader);

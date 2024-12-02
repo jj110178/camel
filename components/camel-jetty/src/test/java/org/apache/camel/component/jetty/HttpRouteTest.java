@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jetty;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -76,7 +78,7 @@ public class HttpRouteTest extends BaseJettyTest {
     @Test
     public void testHelloEndpoint() throws Exception {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        InputStream is = new URL("http://localhost:" + port2 + "/hello").openStream();
+        InputStream is = Urls.create("http://localhost:" + port2 + "/hello", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         int c;
         while ((c = is.read()) >= 0) {
             os.write(c);

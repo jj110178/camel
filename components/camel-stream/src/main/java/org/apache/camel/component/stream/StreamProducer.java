@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.stream;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -84,7 +86,7 @@ public class StreamProducer extends DefaultProducer {
         StringHelper.notEmpty(u, "url");
         log.debug("About to write to url: {}", u);
 
-        URL url = new URL(u);
+        URL url = Urls.create(u, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         URLConnection c = url.openConnection();
         c.setDoOutput(true);
         if (endpoint.getConnectTimeout() > 0) {

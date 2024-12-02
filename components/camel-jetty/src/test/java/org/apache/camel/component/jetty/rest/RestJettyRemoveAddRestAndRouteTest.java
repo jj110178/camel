@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jetty.rest;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -29,10 +31,10 @@ public class RestJettyRemoveAddRestAndRouteTest extends BaseJettyTest {
 
     @Test
     public void testCallRoute() throws Exception {
-        InputStream stream = new URL("http://localhost:" + getPort() + "/issues/35").openStream();
+        InputStream stream = Urls.create("http://localhost:" + getPort() + "/issues/35", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         assertEquals("Here's your issue 35", IOUtils.toString(stream));
 
-        stream = new URL("http://localhost:" + getPort() + "/listings").openStream();
+        stream = Urls.create("http://localhost:" + getPort() + "/listings", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         assertEquals("some listings", IOUtils.toString(stream));
     }
 
@@ -43,7 +45,7 @@ public class RestJettyRemoveAddRestAndRouteTest extends BaseJettyTest {
 
         assertTrue("Should have removed route", removed);
 
-        try (InputStream stream = new URL("http://localhost:" + getPort() + "/issues/35").openStream()) {
+        try (InputStream stream = Urls.create("http://localhost:" + getPort() + "/issues/35", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()) {
             fail();
         } catch (Exception e) {
         }
@@ -61,7 +63,7 @@ public class RestJettyRemoveAddRestAndRouteTest extends BaseJettyTest {
         // org.apache.camel.model.rest.RestDefinition.asRouteDefinition(CamelContext camelContext) line 607 will have 2 rest contexts
         // and duplicate route definitions for the same route which will cause exception
 
-        InputStream stream = new URL("http://localhost:" + getPort() + "/issues/35/65").openStream();
+        InputStream stream = Urls.create("http://localhost:" + getPort() + "/issues/35/65", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         assertEquals("Here's your issue 35:65", IOUtils.toString(stream));
     }
 

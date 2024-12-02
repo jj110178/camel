@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.cxf;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -154,7 +156,7 @@ public class CxfCustomizedExceptionTest extends CamelTestSupport {
     
     @Test
     public void testInvokingServiceFromHTTPURL() throws Exception {
-        URL url = new URL(routerAddress);
+        URL url = Urls.create(routerAddress, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         URLConnection urlConnection = url.openConnection();
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(true);

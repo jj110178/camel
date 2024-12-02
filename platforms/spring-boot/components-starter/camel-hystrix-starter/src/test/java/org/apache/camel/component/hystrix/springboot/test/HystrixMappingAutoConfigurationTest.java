@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.hystrix.springboot.test;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +65,7 @@ public class HystrixMappingAutoConfigurationTest {
             }
         };
 
-        URL hystrix = new URL("http://localhost:" + serverPort + "/hystrix.stream");
+        URL hystrix = Urls.create("http://localhost:" + serverPort + "/hystrix.stream", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try (InputStream stream = consume(hystrix, consumer)) {
             // Hystrix stream is infinite, we stop reading it after the first ping (or timeout)
 

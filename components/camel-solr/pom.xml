@@ -149,6 +149,10 @@
             <artifactId>log4j-1.2-api</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.pixee</groupId>
+            <artifactId>java-security-toolkit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

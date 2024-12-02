@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.ldif;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -73,7 +75,7 @@ public class LdifProducer extends DefaultProducer {
         } else {
             URL loc;
             try {
-                loc = new URL(body);
+                loc = Urls.create(body, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 log.debug("Reading from URL: {}", loc);
                 result = processLdif(new InputStreamReader(loc.openStream()));
             } catch (MalformedURLException e) {

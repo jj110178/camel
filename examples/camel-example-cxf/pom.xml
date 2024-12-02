@@ -180,7 +180,10 @@
             <artifactId>camel-test</artifactId>
             <!-- Not test scope because we need to use the port finder utility in the actual example code. -->
         </dependency>
-
+        <dependency>
+            <groupId>io.github.pixee</groupId>
+            <artifactId>java-security-toolkit</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>

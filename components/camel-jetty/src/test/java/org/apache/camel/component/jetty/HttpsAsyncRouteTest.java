@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.jetty;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,7 +134,7 @@ public class HttpsAsyncRouteTest extends HttpsRouteTest {
         }
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        URL url = new URL("https://localhost:" + port1 + "/hello");
+        URL url = Urls.create("https://localhost:" + port1 + "/hello", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         SSLContext ssl = SSLContext.getInstance("TLSv1.2");
         ssl.init(null, null, null);
@@ -155,7 +157,7 @@ public class HttpsAsyncRouteTest extends HttpsRouteTest {
         }
 
         try {
-            new URL("http://localhost:" + port1 + "/hello").openStream();
+            Urls.create("http://localhost:" + port1 + "/hello", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
             fail("expected SocketException on use ot http");
         } catch (SocketException expected) {
         }

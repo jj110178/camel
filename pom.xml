@@ -131,6 +131,7 @@
         <mycila-license-version>3.0</mycila-license-version>
         <gmavenplus-plugin-version>1.6.2</gmavenplus-plugin-version>
         <groovy-version>2.5.7</groovy-version>
+        <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
     </properties>
 
     <!-- Comment out the snapshot repositories as we don't need them now -->
@@ -468,30 +469,22 @@
                                              dest="${full.eclipse.workspace}/camel-checkstyle.xml"/>
 
                                         <!-- Add checkstyle config -->
-                                        <copy file="${basedir}/etc/eclipse/template.checkstyle-config.xml"
-                                              tofile="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml"
-                                              overwrite="no">
+                                        <copy file="${basedir}/etc/eclipse/template.checkstyle-config.xml" tofile="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml" overwrite="no">
                                             <filterset>
-                                                <filter token="CHECKSTYLE_CONFIG_FILE"
-                                                        value="${full.eclipse.workspace}/camel-checkstyle.xml"/>
-                                                <filter token="APACHE_HEADER_FILE"
-                                                        value="${full.eclipse.workspace}/apache-header.txt"/>
+                                                <filter token="CHECKSTYLE_CONFIG_FILE" value="${full.eclipse.workspace}/camel-checkstyle.xml"/>
+                                                <filter token="APACHE_HEADER_FILE" value="${full.eclipse.workspace}/apache-header.txt"/>
                                             </filterset>
                                         </copy>
 
-                                        <xslt style="${basedir}/etc/eclipse/addcheckstyle.xsl"
-                                              in="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml"
-                                              out="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml.new">
-                                            <param name="checkstyleconfig"
-                                                   expression="${full.eclipse.workspace}/camel-checkstyle.xml"/>
+                                        <xslt style="${basedir}/etc/eclipse/addcheckstyle.xsl" in="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml" out="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml.new">
+                                            <param name="checkstyleconfig" expression="${full.eclipse.workspace}/camel-checkstyle.xml"/>
                                         </xslt>
                                         <copy file="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml.new"
                                               tofile="${full.eclipse.workspace}/.metadata/.plugins/net.sf.eclipsecs.core/checkstyle-config.xml"
                                               overwrite="yes"/>
 
                                         <!-- Add code format rules -->
-                                        <concat destfile="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.core.prefs"
-                                                append="true" fixlastline="true">
+                                        <concat destfile="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.core.prefs" append="true" fixlastline="true">
                                             <filelist dir="${basedir}/etc/eclipse" files="org.eclipse.jdt.core.prefs"/>
                                         </concat>
                                         <loadfile property="eclipse.code.format"
@@ -502,32 +495,25 @@
                                                   srcFile="${basedir}/etc/eclipse/camel_java_templates.xml"/>
                                         <loadfile property="eclipse.camel.xml.code.templates"
                                                   srcFile="${basedir}/etc/eclipse/camel_xml_templates.xml"/>
-                                        <propertyfile
-                                                file="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs">
+                                        <propertyfile file="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs">
                                             <entry key="formatter_profile" value="Camel Java Conventions"/>
-                                            <entry key="org.eclipse.jdt.ui.formatterprofiles"
-                                                   value="${eclipse.code.format}"/>
-                                            <entry key="org.eclipse.jdt.ui.text.custom_code_templates"
-                                                   value="${eclipse.code.templates}"/>
+                                            <entry key="org.eclipse.jdt.ui.formatterprofiles" value="${eclipse.code.format}"/>
+                                            <entry key="org.eclipse.jdt.ui.text.custom_code_templates" value="${eclipse.code.templates}"/>
 
                                             <!-- Add Camel templates for Java DSL -->
-                                            <entry key="org.eclipse.jdt.ui.text.custom_templates"
-                                                   value="${eclipse.camel.java.code.templates}"/>
+                                            <entry key="org.eclipse.jdt.ui.text.custom_templates" value="${eclipse.camel.java.code.templates}"/>
 
                                             <!-- Add import order -->
-                                            <entry key="org.eclipse.jdt.ui.importorder"
-                                                   value="java;javax;org.w3c;org.xml;w3c;"/>
+                                            <entry key="org.eclipse.jdt.ui.importorder" value="java;javax;org.w3c;org.xml;w3c;"/>
                                             <!-- Sort order -->
                                             <entry key="org.eclipse.jdt.ui.visibility.order" value="B,R,D,V,"/>
                                             <entry key="outlinesortoption" value="T,SF,F,SI,I,C,SM,M,"/>
                                             <entry key="org.eclipse.jdt.ui.enable.visibility.order" value="true"/>
                                         </propertyfile>
-                                        <propertyfile
-                                                file="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.wst.xml.ui.prefs">
+                                        <propertyfile file="${full.eclipse.workspace}/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.wst.xml.ui.prefs">
                                             <entry key="eclipse.preferences.version" value="1"/>
                                             <!-- Add Camel templates for Spring DSL -->
-                                            <entry key="org.eclipse.wst.sse.ui.custom_templates"
-                                                   value="${eclipse.camel.xml.code.templates}"/>
+                                            <entry key="org.eclipse.wst.sse.ui.custom_templates" value="${eclipse.camel.xml.code.templates}"/>
                                         </propertyfile>
                                     </target>
                                 </configuration>
@@ -816,4 +802,19 @@
         </profile>
 
     </profiles>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.pixee</groupId>
+                <artifactId>java-security-toolkit</artifactId>
+                <version>${versions.java-security-toolkit}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.pixee</groupId>
+            <artifactId>java-security-toolkit</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.iota;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 
 import jota.IotaAPI;
@@ -73,7 +75,7 @@ public class IOTAEndpoint extends DefaultEndpoint {
 
     @Override
     protected void doStart() throws Exception {
-        final URL u = new URL(url);
+        final URL u = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         apiClient = new IotaAPI.Builder().protocol(u.getProtocol()).host(u.getHost()).port(String.valueOf(u.getPort())).build();
 
         super.doStart();

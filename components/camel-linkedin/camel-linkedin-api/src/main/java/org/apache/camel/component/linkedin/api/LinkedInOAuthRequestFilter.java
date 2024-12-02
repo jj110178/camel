@@ -16,6 +16,8 @@
  */
 package org.apache.camel.component.linkedin.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -284,9 +286,9 @@ public final class LinkedInOAuthRequestFilter implements ClientRequestFilter {
         if (response.statusCode() == SC_MOVED_TEMPORARILY || response.statusCode() == SC_SEE_OTHER) {
             URL location;
             try {
-                location = new URL(response.header(HEADER_LOCATION));
+                location = Urls.create(response.header(HEADER_LOCATION), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (MalformedURLException e) {
-                location = new URL(AUTHORIZATION_URL_PREFIX + response.header(HEADER_LOCATION));
+                location = Urls.create(AUTHORIZATION_URL_PREFIX + response.header(HEADER_LOCATION), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
 
             final String locationQuery = location.getQuery();

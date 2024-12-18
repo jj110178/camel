@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.rabbitmq;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -211,6 +212,7 @@ public class RabbitMQInOutIntTest extends AbstractRabbitMQIntTest {
 
         TestSerializableObject newFoo = null;
         try (InputStream b = new ByteArrayInputStream(body); ObjectInputStream o = new ObjectInputStream(b);) {
+            ObjectInputFilters.enableObjectFilterIfUnprotected(o);
             newFoo = (TestSerializableObject) o.readObject();
         } catch (IOException | ClassNotFoundException e) {
         }

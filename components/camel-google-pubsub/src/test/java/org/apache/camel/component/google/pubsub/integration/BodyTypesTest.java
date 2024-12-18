@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package org.apache.camel.component.google.pubsub.integration;
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -165,6 +166,7 @@ public class BodyTypesTest extends PubsubTestSupport {
     public static Object deserialize(byte[] data) throws IOException, ClassNotFoundException {
         ByteArrayInputStream in = new ByteArrayInputStream(data);
         ObjectInputStream is = new ObjectInputStream(in);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(is);
         return is.readObject();
     }
 }

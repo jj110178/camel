@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.ahc.helper;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -70,6 +71,7 @@ public final class AhcHelper {
 
         Object answer = null;
         ObjectInputStream ois = new ObjectInputStream(is);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
         try {
             answer = ois.readObject();
         } finally {

@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.stax;
 
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -120,7 +121,7 @@ public class StAXJAXBIteratorExpression<T> extends ExpressionAdapter {
                 reader = exchange.getIn().getMandatoryBody(XMLEventReader.class);
             } else {
                 InputStream inputStream = exchange.getIn().getMandatoryBody(InputStream.class);
-                XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+                XMLInputFactory xmlInputFactory = hardenFactory(XMLInputFactory.newInstance());
                 xmlInputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, false);
                 reader = xmlInputFactory.createXMLEventReader(inputStream);
             }

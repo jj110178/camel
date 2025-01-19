@@ -16,6 +16,7 @@
  */
 package org.apache.camel.converter.jaxp;
 
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -318,7 +319,7 @@ public class StaxConverter {
     }
     
     public static XMLInputFactory createXMLInputFactory(boolean nsAware) {
-        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLInputFactory factory = hardenFactory(XMLInputFactory.newInstance());
         setProperty(factory, XMLInputFactory.IS_NAMESPACE_AWARE, nsAware);
         setProperty(factory, XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
         setProperty(factory, XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);

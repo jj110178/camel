@@ -16,6 +16,7 @@
  */
 package org.apache.camel.loanbroker.bank;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.camel.Exchange;
@@ -35,7 +36,7 @@ public class BankProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         String ssn = exchange.getIn().getHeader(Constants.PROPERTY_SSN, String.class);
         Integer historyLength = exchange.getIn().getHeader(Constants.PROPERTY_HISTORYLENGTH, Integer.class);
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         double rate = primeRate + (double) (historyLength / 12) / 10 + (rand.nextDouble()  * 10) / 10;
 
         // set reply details as headers

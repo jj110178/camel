@@ -18,6 +18,7 @@ package org.apache.camel.component.rabbitmq;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public class RabbitMQEndpointTest extends CamelTestSupport {
         String routingKey = UUID.randomUUID().toString();
         String exchangeName = UUID.randomUUID().toString();
         long tag = UUID.randomUUID().toString().hashCode();
-        Boolean redelivery = new Random().nextBoolean();
+        Boolean redelivery = new SecureRandom().nextBoolean();
 
         Mockito.when(envelope.getRoutingKey()).thenReturn(routingKey);
         Mockito.when(envelope.getExchange()).thenReturn(exchangeName);

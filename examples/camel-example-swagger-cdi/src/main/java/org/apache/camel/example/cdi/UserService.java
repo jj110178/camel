@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.cdi;
 
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class UserService {
     // use a tree map so they become sorted
     private final Map<String, User> users = new TreeMap<>();
 
-    private Random ran = new Random();
+    private Random ran = new SecureRandom();
 
     public UserService() {
         users.put("123", new User(123, "John Doe"));

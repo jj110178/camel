@@ -17,6 +17,7 @@
 package org.apache.camel.component.google.sheets;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class AbstractGoogleSheetsTestSupport extends CamelTestSupport {
     private void createTestSpreadsheet() {
         Spreadsheet spreadsheet = new Spreadsheet();
         SpreadsheetProperties spreadsheetProperties = new SpreadsheetProperties();
-        spreadsheetProperties.setTitle("camel-sheets-" + new Random().nextInt(Integer.MAX_VALUE));
+        spreadsheetProperties.setTitle("camel-sheets-" + new SecureRandom().nextInt(Integer.MAX_VALUE));
 
         spreadsheet.setProperties(spreadsheetProperties);
 

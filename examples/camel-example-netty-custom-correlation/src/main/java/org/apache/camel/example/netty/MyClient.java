@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.netty;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.camel.ExchangeTimedOutException;
@@ -58,7 +59,7 @@ public final class MyClient {
         }
 
         public String word() {
-            int ran = new Random().nextInt(words.length);
+            int ran = new SecureRandom().nextInt(words.length);
             return words[ran];
         }
 

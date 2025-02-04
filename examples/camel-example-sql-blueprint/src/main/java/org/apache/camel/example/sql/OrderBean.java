@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.sql;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,7 +27,7 @@ import java.util.Random;
 public class OrderBean {
 
     private int counter;
-    private Random ran = new Random();
+    private Random ran = new SecureRandom();
 
     /**
      * Generates a new order structured as a {@link Map}

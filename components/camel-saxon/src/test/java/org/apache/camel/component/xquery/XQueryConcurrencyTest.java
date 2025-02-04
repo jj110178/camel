@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.xquery;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.camel.builder.RouteBuilder;
@@ -50,7 +51,7 @@ public class XQueryConcurrencyTest extends CamelTestSupport {
                     for (int i = 0; i < 200; i++) {
                         try {
                             // do some random sleep to simulate spread in user activity
-                            Thread.sleep(new Random().nextInt(10));
+                            Thread.sleep(new SecureRandom().nextInt(10));
                         } catch (InterruptedException e) {
                             // ignore
                         }

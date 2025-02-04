@@ -16,6 +16,7 @@
  */
 package org.apache.camel.language.simple;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -167,7 +168,7 @@ public final class SimpleExpressionBuilder {
             public Object evaluate(Exchange exchange) {
                 int num1 = ExpressionBuilder.simpleExpression(min).evaluate(exchange, Integer.class);
                 int num2 = ExpressionBuilder.simpleExpression(max).evaluate(exchange, Integer.class);
-                Random random = new Random();
+                Random random = new SecureRandom();
                 int randomNum = random.nextInt(num2 - num1) + num1;
                 return randomNum;
             }
@@ -192,7 +193,7 @@ public final class SimpleExpressionBuilder {
     public static Expression randomExpression(final int min, final int max) {
         return new ExpressionAdapter() {
             public Object evaluate(Exchange exchange) {
-                Random random = new Random();
+                Random random = new SecureRandom();
                 int randomNum = random.nextInt(max - min) + min;
                 return randomNum;
             }

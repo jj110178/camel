@@ -18,6 +18,7 @@ package org.apache.camel.management;
 import java.rmi.NoSuchObjectException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Random;
 
@@ -63,7 +64,7 @@ public class JmxInstrumentationWithConnectorTest extends JmxInstrumentationUsing
     @Override
     @Before
     public void setUp() throws Exception {
-        registryPort = 30000 + new Random().nextInt(10000);
+        registryPort = 30000 + new SecureRandom().nextInt(10000);
         log.info("Using port " + registryPort);
         url = "service:jmx:rmi:///jndi/rmi://localhost:" + registryPort + "/jmxrmi/camel";
 

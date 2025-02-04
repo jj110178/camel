@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.spring.boot.rest.jpa;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class OrderService {
     @Autowired
     private BookRepository books;
 
-    private final Random amount = new Random();
+    private final Random amount = new SecureRandom();
 
     public Order generateOrder() {
         Order order = new Order();

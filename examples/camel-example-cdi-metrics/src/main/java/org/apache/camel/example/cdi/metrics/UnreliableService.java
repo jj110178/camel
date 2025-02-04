@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.cdi.metrics;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,7 +30,7 @@ public class UnreliableService {
 
     @Metered
     public void attempt(Exchange exchange) {
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         if (rand.nextDouble() < 0.5) {
             throw new RuntimeExchangeException("Random failure", exchange);
         }

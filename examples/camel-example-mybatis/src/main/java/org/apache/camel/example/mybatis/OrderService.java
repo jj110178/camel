@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.mybatis;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Random;
 public class OrderService {
 
     private int counter;
-    private Random ran = new Random();
+    private Random ran = new SecureRandom();
 
     /**
      * Generates a new order

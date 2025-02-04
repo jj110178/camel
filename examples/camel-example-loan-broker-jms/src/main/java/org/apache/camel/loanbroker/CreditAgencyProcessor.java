@@ -16,6 +16,7 @@
  */
 package org.apache.camel.loanbroker;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.camel.Exchange;
@@ -26,7 +27,7 @@ public class CreditAgencyProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         String ssn = exchange.getIn().getHeader(Constants.PROPERTY_SSN, String.class);
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         int score = (int) (rand.nextDouble() * 600 + 300);
         int hlength = (int) (rand.nextDouble() * 19 + 1);
 

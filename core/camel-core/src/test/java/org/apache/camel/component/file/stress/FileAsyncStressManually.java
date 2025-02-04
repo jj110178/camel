@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.file.stress;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.camel.ContextTestSupport;
@@ -52,7 +53,7 @@ public class FileAsyncStressManually extends ContextTestSupport {
                     .process(new Processor() {
                         public void process(Exchange exchange) throws Exception {
                             // simulate some work with random time to complete
-                            Random ran = new Random();
+                            Random ran = new SecureRandom();
                             int delay = ran.nextInt(500) + 10;
                             Thread.sleep(delay);
                         }

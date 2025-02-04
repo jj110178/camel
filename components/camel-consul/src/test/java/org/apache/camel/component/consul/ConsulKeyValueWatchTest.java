@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.consul;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ public class ConsulKeyValueWatchTest extends ConsulTestSupport {
     public void doPreSetup() {
         key = generateKey();
         client = getConsul().keyValueClient();
-        random = new Random();
+        random = new SecureRandom();
     }
 
     @Test

@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.caffeine.processor.aggregate;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -87,7 +88,7 @@ public class CaffeineAggregationRepositoryRoutesTest extends CamelTestSupport {
     }
     
     protected static int[] generateRandomArrayOfInt(int size, int lower, int upper) {
-        Random random = new Random();
+        Random random = new SecureRandom();
         int[] array = new int[size];
 
         Arrays.setAll(array, i -> random.nextInt(upper - lower) + lower);

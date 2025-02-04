@@ -16,6 +16,7 @@
  */
 package org.apache.camel.component.sjms2;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -52,7 +53,7 @@ public class Sjms2EndpointConnectionSettingsTest extends CamelTestSupport {
 
     @Test
     public void testConnectionCount() {
-        Random random = new Random();
+        Random random = new SecureRandom();
         int poolSize = random.nextInt(100);
         Endpoint endpoint = context.getEndpoint("sjms2:queue:test?connectionCount=" + poolSize);
         assertNotNull(endpoint);

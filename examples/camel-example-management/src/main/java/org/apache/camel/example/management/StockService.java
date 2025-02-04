@@ -16,6 +16,7 @@
  */
 package org.apache.camel.example.management;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class StockService {
     }
 
     public String createRandomStocks() {
-        Random ran = new Random();
+        Random ran = new SecureRandom();
 
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

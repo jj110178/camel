@@ -17,6 +17,7 @@
 package org.apache.camel.component.google.calendar;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -43,7 +44,7 @@ public class AbstractGoogleCalendarTestSupport extends CamelTestSupport {
     @Before
     public void createTestCalendar() {
         Calendar calendar = new Calendar();
-        Random rand = new Random();
+        Random rand = new SecureRandom();
 
         calendar.setSummary("camel-calendar-" + rand.nextInt());
         calendar.setTimeZone("America/St_Johns");

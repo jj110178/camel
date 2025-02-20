@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package org.apache.camel.processor.aggregate.zipfile;
+import io.github.pixee.security.ZipSecurity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
@@ -57,7 +58,7 @@ public class AggregationStrategyWithPreservationTest extends CamelTestSupport {
         Set<String> expectedZipFiles = new HashSet<>(Arrays.asList("another" + File.separator + "hello.txt", 
                                                                          "other" + File.separator + "greetings.txt",
                                                                          "chiau.txt", "hi.txt", "hola.txt"));
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(resultFile));
+        ZipInputStream zin = ZipSecurity.createHardenedInputStream(new FileInputStream(resultFile));
         try {
             int fileCount = 0;
             for (ZipEntry ze = zin.getNextEntry(); ze != null; ze = zin.getNextEntry()) {

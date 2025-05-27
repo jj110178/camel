@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package org.apache.camel.processor.aggregate.zipfile;
+import io.github.pixee.security.ZipSecurity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.zip.ZipEntry;
@@ -54,7 +55,7 @@ public class ZipAggregationStrategyTest extends CamelTestSupport {
 
         File resultFile = files[0];
 
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(resultFile));
+        ZipInputStream zin = ZipSecurity.createHardenedInputStream(new FileInputStream(resultFile));
         try {
             int fileCount = 0;
             for (ZipEntry ze = zin.getNextEntry(); ze != null; ze = zin.getNextEntry()) {
